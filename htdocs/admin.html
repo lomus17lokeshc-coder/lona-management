@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard – Lona Library</title>
+    <meta name="description" content="Lona Library Admin Dashboard – Manage all library operations.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="dashboard-page">
+    <div class="app-layout">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-brand">
+                <span>📚</span>
+                <div>
+                    <strong>Lona Library</strong>
+                    <small>Admin Panel</small>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <button class="nav-item active" data-view="dash-view" id="nav-dash">
+                    <span class="nav-icon">📊</span> Dashboard
+                </button>
+                <button class="nav-item" data-view="books-view" id="nav-books">
+                    <span class="nav-icon">📖</span> All Books
+                </button>
+                <button class="nav-item" data-view="add-book-view" id="nav-add-book">
+                    <span class="nav-icon">➕</span> Add Book
+                </button>
+                <button class="nav-item" data-view="issue-view" id="nav-issue">
+                    <span class="nav-icon">📤</span> Issue Book
+                </button>
+                <button class="nav-item" data-view="pending-view" id="nav-pending">
+                    <span class="nav-icon">⏳</span> Pending Returns
+                </button>
+                <button class="nav-item" data-view="suggest-view" id="nav-suggest">
+                    <span class="nav-icon">💡</span> Suggestions
+                </button>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="logout-btn" id="logoutBtn" onclick="logout()">🚪 Logout</button>
+            </div>
+        </aside>
+
+        <div class="main-wrap">
+            <header class="topbar">
+                <div class="topbar-left">
+                    <h1 id="page-title">Dashboard</h1>
+                </div>
+                <div class="topbar-right">
+                    <div class="admin-badge">
+                        <span class="admin-avatar">👨‍💼</span>
+                        <div>
+                            <span class="admin-name">Administrator</span>
+                            <span class="admin-role">Admin ID: ADM001</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="content-area">
+                <div id="globalNotification" class="global-notif hidden"></div>
+
+                <!-- DASHBOARD VIEW -->
+                <section id="dash-view" class="view active-view">
+                    <div class="stats-grid">
+                        <div class="stat-card stat-blue">
+                            <div class="stat-icon">👥</div>
+                            <div class="stat-info">
+                                <span class="stat-label">Total Students</span>
+                                <span class="stat-value" id="stat-students">--</span>
+                            </div>
+                        </div>
+                        <div class="stat-card stat-amber">
+                            <div class="stat-icon">📤</div>
+                            <div class="stat-info">
+                                <span class="stat-label">Issued Books</span>
+                                <span class="stat-value" id="stat-issued">--</span>
+                            </div>
+                        </div>
+                        <div class="stat-card stat-green">
+                            <div class="stat-icon">✅</div>
+                            <div class="stat-info">
+                                <span class="stat-label">Returned Books</span>
+                                <span class="stat-value" id="stat-returned">--</span>
+                            </div>
+                        </div>
+                        <div class="stat-card stat-red">
+                            <div class="stat-icon">⏳</div>
+                            <div class="stat-info">
+                                <span class="stat-label">Pending Returns</span>
+                                <span class="stat-value" id="stat-pending">--</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dashboard-grid">
+                        <div class="card">
+                            <h3 class="card-title">Recent Transactions</h3>
+                            <div id="recent-transactions" class="trans-list">
+                                <p class="empty-state">Loading transactions...</p>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <h3 class="card-title">Overdue Alerts 🚨</h3>
+                            <div id="overdue-alerts" class="overdue-list">
+                                <p class="empty-state">Checking overdue books...</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ALL BOOKS VIEW -->
+                <section id="books-view" class="view">
+                    <div class="view-toolbar">
+                        <input type="text" id="bookSearchInput" class="search-input" placeholder="🔍 Search books by title, author or category...">
+                        <select id="categoryFilter" class="select-input">
+                            <option value="">All Categories</option>
+                            <option value="DBMS">DBMS</option>
+                            <option value="OS">Operating Systems</option>
+                            <option value="DS">Data Structures</option>
+                            <option value="Maths">Mathematics</option>
+                            <option value="Networks">Networks</option>
+                            <option value="Programming">Programming</option>
+                        </select>
+                    </div>
+                    <div class="table-card">
+                        <table id="adminBooksTable">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Book Title</th>
+                                    <th>Author</th>
+                                    <th>Category</th>
+                                    <th>Semester</th>
+                                    <th>Total</th>
+                                    <th>Issued</th>
+                                    <th>Available</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adminBooksTableBody">
+                                <tr><td colspan="8" class="empty-state">Loading books...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- ADD BOOK VIEW -->
+                <section id="add-book-view" class="view">
+                    <div class="card form-card-wide">
+                        <h3 class="card-title">Add New Book to Library</h3>
+                        <form id="addBookForm" novalidate>
+                            <div class="form-grid-2">
+                                <div class="form-group">
+                                    <label for="bookId">Book ID</label>
+                                    <input type="number" id="bookId" required placeholder="e.g. 101">
+                                </div>
+                                <div class="form-group">
+                                    <label for="bookName">Book Title</label>
+                                    <input type="text" id="bookName" required placeholder="Full title">
+                                </div>
+                                <div class="form-group">
+                                    <label for="bookAuthor">Author</label>
+                                    <input type="text" id="bookAuthor" required placeholder="Author name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="bookCategory">Category</label>
+                                    <select id="bookCategory" required>
+                                        <option value="">— Select Category —</option>
+                                        <option value="DBMS">DBMS</option>
+                                        <option value="OS">Operating Systems</option>
+                                        <option value="DS">Data Structures</option>
+                                        <option value="Maths">Mathematics</option>
+                                        <option value="Networks">Networks</option>
+                                        <option value="Programming">Programming</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="bookDept">Department</label>
+                                    <input type="text" id="bookDept" placeholder="e.g. Computer Science">
+                                </div>
+                                <div class="form-group">
+                                    <label for="bookSemester">Semester</label>
+                                    <select id="bookSemester">
+                                        <option value="">— Select Semester —</option>
+                                        <option value="1">Semester 1</option>
+                                        <option value="2">Semester 2</option>
+                                        <option value="3">Semester 3</option>
+                                        <option value="4">Semester 4</option>
+                                        <option value="5">Semester 5</option>
+                                        <option value="6">Semester 6</option>
+                                        <option value="7">Semester 7</option>
+                                        <option value="8">Semester 8</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="bookQty">Quantity</label>
+                                    <input type="number" id="bookQty" required placeholder="Number of copies" min="1">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn-primary" id="addBookBtn">Add Book to Library</button>
+                        </form>
+                    </div>
+                </section>
+
+                <!-- ISSUE BOOK VIEW -->
+                <section id="issue-view" class="view">
+                    <div class="card form-card-wide">
+                        <h3 class="card-title">Issue Book to Student</h3>
+                        <form id="issueBookForm" novalidate>
+                            <div class="form-grid-2">
+                                <div class="form-group">
+                                    <label for="issueStudentId">Student ID</label>
+                                    <input type="text" id="issueStudentId" required placeholder="e.g. STU001">
+                                </div>
+                                <div class="form-group">
+                                    <label for="issueBookId">Book ID</label>
+                                    <input type="number" id="issueBookId" required placeholder="e.g. 101">
+                                </div>
+                                <div class="form-group">
+                                    <label for="issueDueDate">Due Date</label>
+                                    <input type="date" id="issueDueDate" required>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn-primary" id="issueBtn">Issue Book</button>
+                        </form>
+                    </div>
+                </section>
+
+                <!-- PENDING RETURNS VIEW -->
+                <section id="pending-view" class="view">
+                    <div class="table-card">
+                        <div class="table-header-bar">
+                            <h3>Pending Returns</h3>
+                            <span id="pending-count" class="badge badge-red">0 pending</span>
+                        </div>
+                        <table id="pendingTable">
+                            <thead>
+                                <tr>
+                                    <th>Student Name</th>
+                                    <th>Student ID</th>
+                                    <th>Department</th>
+                                    <th>Book</th>
+                                    <th>Due Date</th>
+                                    <th>Fine (₹)</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="pendingTableBody">
+                                <tr><td colspan="7" class="empty-state">Loading pending returns...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- SUGGESTIONS VIEW -->
+                <section id="suggest-view" class="view">
+                    <div class="suggestions-intro">
+                        <h3>📚 Recommended Books for Students</h3>
+                        <p>Curated book recommendations for each department and semester.</p>
+                    </div>
+                    <div class="suggest-grid" id="suggestGrid">
+                        <!-- Populated by JS -->
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <script>window.USER_ROLE = 'admin';</script>
+    <script src="js/app.js"></script>
+</body>
+</html>

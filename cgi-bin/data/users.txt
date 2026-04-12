@@ -1,0 +1,5 @@
+STU001|Ananya Sharma|Computer Science|4|pass123
+STU002|Rohit Verma|Electronics|3|pass123
+STU003|Priya Nair|Information Tech|5|pass123
+STU004|Karan Mehta|Mechanical|2|pass123
+STU005|Sneha Patel|Civil|6|pass123

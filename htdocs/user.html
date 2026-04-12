@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard – Lona Library</title>
+    <meta name="description" content="Lona Library Student Dashboard – Browse and manage your books.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="dashboard-page">
+    <div class="app-layout">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-brand">
+                <span>📚</span>
+                <div>
+                    <strong>Lona Library</strong>
+                    <small>Student Portal</small>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <button class="nav-item active" data-view="profile-view" id="nav-profile">
+                    <span class="nav-icon">🏠</span> My Profile
+                </button>
+                <button class="nav-item" data-view="browse-view" id="nav-browse">
+                    <span class="nav-icon">📖</span> Browse Books
+                </button>
+                <button class="nav-item" data-view="mybooks-view" id="nav-mybooks">
+                    <span class="nav-icon">📋</span> My Books
+                </button>
+                <button class="nav-item" data-view="suggest-view" id="nav-suggest">
+                    <span class="nav-icon">💡</span> Suggestions
+                </button>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+            </div>
+        </aside>
+
+        <div class="main-wrap">
+            <header class="topbar">
+                <div class="topbar-left">
+                    <h1 id="page-title">My Profile</h1>
+                </div>
+                <div class="topbar-right">
+                    <div class="admin-badge">
+                        <span class="admin-avatar user-avatar" id="topbar-avatar">🎓</span>
+                        <div>
+                            <span class="admin-name" id="topbar-name">Student</span>
+                            <span class="admin-role" id="topbar-id">ID: --</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="content-area">
+                <div id="globalNotification" class="global-notif hidden"></div>
+
+                <!-- PROFILE VIEW -->
+                <section id="profile-view" class="view active-view">
+                    <div class="profile-card-wrap">
+                        <div class="profile-card">
+                            <div class="profile-photo" id="profilePhoto">🎓</div>
+                            <div class="profile-details">
+                                <h2 id="profileName">Loading...</h2>
+                                <div class="profile-meta">
+                                    <span class="meta-chip" id="profileId">ID: --</span>
+                                    <span class="meta-chip" id="profileDept">Dept: --</span>
+                                    <span class="meta-chip" id="profileSem">Sem: --</span>
+                                </div>
+                                <div class="profile-stats">
+                                    <div class="p-stat">
+                                        <span class="p-stat-val" id="pBooksIssued">0</span>
+                                        <span class="p-stat-lbl">Books Issued</span>
+                                    </div>
+                                    <div class="p-stat">
+                                        <span class="p-stat-val" id="pBooksDue">0</span>
+                                        <span class="p-stat-lbl">Due Soon</span>
+                                    </div>
+                                    <div class="p-stat pending-fine-stat">
+                                        <span class="p-stat-val" id="pFineTotal">₹0</span>
+                                        <span class="p-stat-lbl">Total Fine</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- BROWSE BOOKS VIEW -->
+                <section id="browse-view" class="view">
+                    <div class="view-toolbar">
+                        <input type="text" id="bookSearchInput" class="search-input" placeholder="🔍 Search books by title, author...">
+                        <div class="category-chips" id="categoryChips">
+                            <button class="cat-chip active" data-cat="">All</button>
+                            <button class="cat-chip" data-cat="DBMS">DBMS</button>
+                            <button class="cat-chip" data-cat="OS">OS</button>
+                            <button class="cat-chip" data-cat="DS">Data Structures</button>
+                            <button class="cat-chip" data-cat="Maths">Maths</button>
+                            <button class="cat-chip" data-cat="Networks">Networks</button>
+                            <button class="cat-chip" data-cat="Programming">Programming</button>
+                        </div>
+                    </div>
+                    <div class="books-grid" id="booksGrid">
+                        <p class="empty-state">Loading books...</p>
+                    </div>
+                </section>
+
+                <!-- MY BOOKS VIEW -->
+                <section id="mybooks-view" class="view">
+                    <div class="table-card">
+                        <div class="table-header-bar">
+                            <h3>My Issued Books</h3>
+                            <span class="badge badge-blue" id="mybooks-count">0 books</span>
+                        </div>
+                        <table id="myBooksTable">
+                            <thead>
+                                <tr>
+                                    <th>Book Title</th>
+                                    <th>Author</th>
+                                    <th>Issue Date</th>
+                                    <th>Due Date</th>
+                                    <th>Fine (₹)</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="myBooksTableBody">
+                                <tr><td colspan="7" class="empty-state">Loading your books...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- SUGGESTIONS VIEW -->
+                <section id="suggest-view" class="view">
+                    <div class="suggestions-intro">
+                        <h3>📚 Recommended Books for You</h3>
+                        <p>Hand-picked books based on your department and semester.</p>
+                    </div>
+                    <div class="suggest-grid" id="suggestGrid">
+                        <!-- Populated by JS -->
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <!-- Book Detail Modal -->
+    <div class="modal-overlay hidden" id="bookDetailModal">
+        <div class="modal-box">
+            <button class="modal-close" id="modalCloseBtn">✕</button>
+            <div class="modal-book-icon" id="modalIcon">📖</div>
+            <h2 id="modalTitle">Book Title</h2>
+            <div class="modal-meta">
+                <span id="modalAuthor" class="meta-chip">Author: --</span>
+                <span id="modalCat" class="meta-chip">Category: --</span>
+                <span id="modalDept" class="meta-chip">Dept: --</span>
+                <span id="modalSem" class="meta-chip">Sem: --</span>
+            </div>
+            <div class="modal-availability" id="modalAvail">
+                <span class="avail-badge">Checking...</span>
+            </div>
+            <button class="btn-primary btn-full" id="requestBookBtn">Request This Book</button>
+        </div>
+    </div>
+
+    <script>window.USER_ROLE = 'user';</script>
+    <script src="js/app.js"></script>
+</body>
+</html>

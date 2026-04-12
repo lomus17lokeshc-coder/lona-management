@@ -1,0 +1,18 @@
+# Compiled CGI executables
+cgi-bin/*.exe
+cgi-bin/*.o
+
+# Node modules (if any)
+node_modules/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+
+# Editor folders
+.vscode/
+.idea/
