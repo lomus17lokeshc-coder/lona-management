@@ -32,8 +32,15 @@
                 <button class="nav-item" data-view="issue-view" id="nav-issue">
                     <span class="nav-icon">📤</span> Issue Book
                 </button>
+                <!-- NEW: Issue Requests nav item -->
+                <button class="nav-item" data-view="issue-requests-view" id="nav-issue-reqs">
+                    <span class="nav-icon">📋</span> Issue Requests
+                </button>
                 <button class="nav-item" data-view="pending-view" id="nav-pending">
                     <span class="nav-icon">⏳</span> Pending Returns
+                </button>
+                <button class="nav-item" data-view="return-requests-view" id="nav-return-reqs">
+                    <span class="nav-icon">🔄</span> Return Requests
                 </button>
                 <button class="nav-item" data-view="suggest-view" id="nav-suggest">
                     <span class="nav-icon">💡</span> Suggestions
@@ -94,6 +101,21 @@
                                 <span class="stat-value" id="stat-pending">--</span>
                             </div>
                         </div>
+                        <!-- NEW: Issue Requests Stat Card -->
+                        <div class="stat-card stat-teal">
+                            <div class="stat-icon">📋</div>
+                            <div class="stat-info">
+                                <span class="stat-label">Issue Requests</span>
+                                <span class="stat-value" id="stat-issue-reqs">--</span>
+                            </div>
+                        </div>
+                        <div class="stat-card stat-purple">
+                            <div class="stat-icon">🔄</div>
+                            <div class="stat-info">
+                                <span class="stat-label">Return Requests</span>
+                                <span class="stat-value" id="stat-return-reqs">--</span>
+                            </div>
+                        </div>
                     </div>
                     <div class="dashboard-grid">
                         <div class="card">
@@ -137,10 +159,11 @@
                                     <th>Total</th>
                                     <th>Issued</th>
                                     <th>Available</th>
+                                    <th>Description</th>
                                 </tr>
                             </thead>
                             <tbody id="adminBooksTableBody">
-                                <tr><td colspan="8" class="empty-state">Loading books...</td></tr>
+                                <tr><td colspan="9" class="empty-state">Loading books...</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -199,15 +222,22 @@
                                     <input type="number" id="bookQty" required placeholder="Number of copies" min="1">
                                 </div>
                             </div>
+                            <div class="form-group form-group-full">
+                                <label for="bookDescription">📝 Book Description / Content Preview</label>
+                                <textarea id="bookDescription" class="form-textarea" rows="4" placeholder="Enter a brief description or content preview of the book. This helps students understand the book before borrowing."></textarea>
+                            </div>
                             <button type="submit" class="btn-primary" id="addBookBtn">Add Book to Library</button>
                         </form>
                     </div>
                 </section>
 
-                <!-- ISSUE BOOK VIEW -->
+                <!-- ISSUE BOOK VIEW (Admin Direct Issue) -->
                 <section id="issue-view" class="view">
                     <div class="card form-card-wide">
-                        <h3 class="card-title">Issue Book to Student</h3>
+                        <h3 class="card-title">Issue Book to Student (Admin Direct)</h3>
+                        <div class="admin-direct-note">
+                            <p>💡 This is for admin-initiated direct issue. Students submit issue requests via their portal which you can approve from <strong>Issue Requests</strong>.</p>
+                        </div>
                         <form id="issueBookForm" novalidate>
                             <div class="form-grid-2">
                                 <div class="form-group">
@@ -225,6 +255,35 @@
                             </div>
                             <button type="submit" class="btn-primary" id="issueBtn">Issue Book</button>
                         </form>
+                    </div>
+                </section>
+
+                <!-- NEW: ISSUE REQUESTS VIEW -->
+                <section id="issue-requests-view" class="view">
+                    <div class="table-card">
+                        <div class="table-header-bar">
+                            <h3>📋 Student Issue Requests</h3>
+                            <span id="issue-req-count" class="badge badge-teal">0 pending</span>
+                        </div>
+                        <div class="return-req-info-bar issue-req-info-bar">
+                            <p>Students request books from their portal. <strong>Approve</strong> to issue the book (quantity decreases) or <strong>Reject</strong> to deny the request.</p>
+                        </div>
+                        <table id="issueReqTable">
+                            <thead>
+                                <tr>
+                                    <th>Student Name</th>
+                                    <th>Student ID</th>
+                                    <th>Book Title</th>
+                                    <th>Book ID</th>
+                                    <th>Status</th>
+                                    <th>Request Date</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="issueReqTableBody">
+                                <tr><td colspan="7" class="empty-state">Loading issue requests...</td></tr>
+                            </tbody>
+                        </table>
                     </div>
                 </section>
 
@@ -249,6 +308,35 @@
                             </thead>
                             <tbody id="pendingTableBody">
                                 <tr><td colspan="7" class="empty-state">Loading pending returns...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- RETURN REQUESTS VIEW -->
+                <section id="return-requests-view" class="view">
+                    <div class="table-card">
+                        <div class="table-header-bar">
+                            <h3>🔄 Student Return Requests</h3>
+                            <span id="return-req-count" class="badge badge-amber">0 pending</span>
+                        </div>
+                        <div class="return-req-info-bar">
+                            <p>Students submit return requests here. Approve to mark as returned (quantity restored) or Reject to keep the book issued.</p>
+                        </div>
+                        <table id="returnReqTable">
+                            <thead>
+                                <tr>
+                                    <th>Student Name</th>
+                                    <th>Student ID</th>
+                                    <th>Book Title</th>
+                                    <th>Book ID</th>
+                                    <th>Status</th>
+                                    <th>Request Date</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="returnReqTableBody">
+                                <tr><td colspan="7" class="empty-state">Loading return requests...</td></tr>
                             </tbody>
                         </table>
                     </div>

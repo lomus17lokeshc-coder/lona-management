@@ -402,6 +402,30 @@ body.login-page {
     gap: 1rem 1.5rem;
 }
 
+/* ─── NEW: Full-width form group & textarea ─── */
+.form-group-full {
+    margin-top: 0.5rem;
+    margin-bottom: 1.25rem;
+}
+.form-textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 0.95rem;
+    background: #FAFBFF;
+    color: var(--text);
+    font-family: inherit;
+    resize: vertical;
+    min-height: 80px;
+    transition: border-color var(--transition), box-shadow var(--transition);
+}
+.form-textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+}
+
 /* =============================================
    BUTTONS
    ============================================= */
@@ -718,6 +742,14 @@ body.dashboard-page {
 .stat-red   .stat-icon { background: var(--danger-light); }
 .stat-red   .stat-value { color: var(--danger); }
 
+/* NEW: Purple stat card variant for Return Requests */
+.stat-purple .stat-icon { background: #EDE9FE; }
+.stat-purple .stat-value { color: var(--secondary); }
+
+/* NEW: Teal stat card variant for Issue Requests */
+.stat-teal .stat-icon { background: #CCFBF1; }
+.stat-teal .stat-value { color: #0D9488; }
+
 /* =============================================
    CARDS
    ============================================= */
@@ -801,6 +833,7 @@ tbody tr:last-child td { border-bottom: none; }
 .badge-red    { background: var(--danger-light);  color: #991B1B; }
 .badge-amber  { background: var(--warning-light); color: #92400E; }
 .badge-blue   { background: var(--primary-light); color: #1D4ED8; }
+.badge-teal   { background: #CCFBF1; color: #0D9488; }
 
 /* =============================================
    SEARCH & TOOLBAR
@@ -919,6 +952,31 @@ tbody tr:last-child td { border-bottom: none; }
 .avail-yes { color: var(--success); }
 .avail-no  { color: var(--danger); }
 
+/* ─── NEW: Book Description Preview in Cards ─── */
+.book-desc-preview {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    line-height: 1.45;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-top: 0.15rem;
+    padding: 0.35rem 0;
+    border-top: 1px dashed var(--border);
+}
+
+/* Description preview in admin table */
+.desc-preview-cell {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: help;
+}
+
 /* =============================================
    PROFILE CARD
    ============================================= */
@@ -983,7 +1041,9 @@ tbody tr:last-child td { border-bottom: none; }
     font-weight: 700;
     color: var(--primary);
 }
-.pending-fine-stat .p-stat-val { color: var(--danger); }
+.pending-fine-stat .p-stat-val  { color: var(--danger); }
+.pending-req-stat .p-stat-val   { color: var(--secondary); }
+.pending-issue-stat .p-stat-val { color: #0D9488; }
 .p-stat-lbl { font-size: 0.75rem; color: var(--text-muted); }
 
 /* =============================================
@@ -1111,6 +1171,30 @@ tbody tr:last-child td { border-bottom: none; }
 .modal-book-icon { font-size: 3.5rem; margin-bottom: 1rem; }
 .modal-box h2 { font-size: 1.25rem; margin-bottom: 0.75rem; }
 .modal-meta { display: flex; flex-wrap: wrap; gap: 0.4rem; justify-content: center; margin-bottom: 1rem; }
+
+/* ─── NEW: Modal Description / Content Preview ─── */
+.modal-description-section {
+    text-align: left;
+    background: #F8FAFC;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.25rem;
+}
+.modal-desc-label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+}
+.modal-desc-text {
+    font-size: 0.85rem;
+    color: var(--text);
+    line-height: 1.55;
+    max-height: 120px;
+    overflow-y: auto;
+}
+
 .modal-availability { margin-bottom: 1.5rem; }
 .avail-badge {
     display: inline-block;
@@ -1118,6 +1202,89 @@ tbody tr:last-child td { border-bottom: none; }
     border-radius: 9999px;
     font-weight: 600;
     font-size: 0.85rem;
+}
+
+/* ─── NEW: Approve / Reject Buttons ─── */
+.btn-approve {
+    background: var(--success);
+    color: #fff;
+    border: none;
+    padding: 0.45rem 0.85rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition);
+    margin-right: 0.35rem;
+}
+.btn-approve:hover { background: #047857; transform: translateY(-1px); }
+
+.btn-reject {
+    background: var(--danger);
+    color: #fff;
+    border: none;
+    padding: 0.45rem 0.85rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition);
+}
+.btn-reject:hover { background: #B91C1C; transform: translateY(-1px); }
+
+.action-btns {
+    display: flex;
+    gap: 0.35rem;
+    align-items: center;
+}
+
+/* ─── NEW: Return Request Info Bar ─── */
+.return-req-info-bar {
+    padding: 0.85rem 1.5rem;
+    background: linear-gradient(135deg, #EDE9FE 0%, #DBEAFE 100%);
+    border-bottom: 1px solid var(--border);
+    font-size: 0.82rem;
+    color: var(--text-muted);
+}
+.return-req-info-bar p { margin: 0; }
+
+.text-muted { color: var(--text-muted); font-size: 0.82rem; }
+
+/* ─── NEW: Issue Request Info Bar ─── */
+.issue-req-info-bar {
+    background: linear-gradient(135deg, #CCFBF1 0%, #DBEAFE 100%);
+}
+
+/* ─── NEW: Admin Direct Note ─── */
+.admin-direct-note {
+    background: linear-gradient(135deg, #FEF3C7 0%, #FEF9C3 100%);
+    border: 1px solid #FDE68A;
+    border-radius: var(--radius-sm);
+    padding: 0.85rem 1.25rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.85rem;
+    color: #92400E;
+}
+.admin-direct-note p { margin: 0; }
+.admin-direct-note strong { color: #78350F; }
+
+/* ─── NEW: Modal Button States ─── */
+.btn-disabled-state {
+    background: #E2E8F0 !important;
+    color: #64748B !important;
+    box-shadow: none !important;
+    cursor: not-allowed !important;
+}
+.btn-disabled-state:hover {
+    transform: none !important;
+}
+.btn-pending-state {
+    background: linear-gradient(135deg, #D97706, #F59E0B) !important;
+    color: #fff !important;
+    cursor: not-allowed !important;
+}
+.btn-pending-state:hover {
+    transform: none !important;
 }
 
 /* =============================================

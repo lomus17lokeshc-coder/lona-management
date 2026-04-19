@@ -29,6 +29,10 @@
                 <button class="nav-item" data-view="mybooks-view" id="nav-mybooks">
                     <span class="nav-icon">📋</span> My Books
                 </button>
+                <!-- NEW: My Requests nav item -->
+                <button class="nav-item" data-view="my-requests-view" id="nav-my-requests">
+                    <span class="nav-icon">📝</span> My Requests
+                </button>
                 <button class="nav-item" data-view="suggest-view" id="nav-suggest">
                     <span class="nav-icon">💡</span> Suggestions
                 </button>
@@ -57,7 +61,7 @@
             <div class="content-area">
                 <div id="globalNotification" class="global-notif hidden"></div>
 
-                <!-- PROFILE VIEW -->
+                <!-- PROFILE VIEW – with Issue Requests stat -->
                 <section id="profile-view" class="view active-view">
                     <div class="profile-card-wrap">
                         <div class="profile-card">
@@ -81,6 +85,15 @@
                                     <div class="p-stat pending-fine-stat">
                                         <span class="p-stat-val" id="pFineTotal">₹0</span>
                                         <span class="p-stat-lbl">Total Fine</span>
+                                    </div>
+                                    <!-- NEW: Issue Requests stat -->
+                                    <div class="p-stat pending-issue-stat">
+                                        <span class="p-stat-val" id="pIssueReqs">0</span>
+                                        <span class="p-stat-lbl">Issue Requests</span>
+                                    </div>
+                                    <div class="p-stat pending-req-stat">
+                                        <span class="p-stat-val" id="pReturnReqs">0</span>
+                                        <span class="p-stat-lbl">Return Requests</span>
                                     </div>
                                 </div>
                             </div>
@@ -133,6 +146,33 @@
                     </div>
                 </section>
 
+                <!-- NEW: MY REQUESTS VIEW -->
+                <section id="my-requests-view" class="view">
+                    <div class="table-card">
+                        <div class="table-header-bar">
+                            <h3>📝 My Issue Requests</h3>
+                            <span class="badge badge-teal" id="my-issue-req-count">0 pending</span>
+                        </div>
+                        <div class="return-req-info-bar issue-req-info-bar">
+                            <p>Your book issue requests and their approval status. Approved books will appear in <strong>My Books</strong>.</p>
+                        </div>
+                        <table id="myIssueReqTable">
+                            <thead>
+                                <tr>
+                                    <th>Book Title</th>
+                                    <th>Author</th>
+                                    <th>Book ID</th>
+                                    <th>Request Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="myIssueReqTableBody">
+                                <tr><td colspan="5" class="empty-state">Loading your requests...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
                 <!-- SUGGESTIONS VIEW -->
                 <section id="suggest-view" class="view">
                     <div class="suggestions-intro">
@@ -147,7 +187,7 @@
         </div>
     </div>
 
-    <!-- Book Detail Modal -->
+    <!-- Book Detail Modal – MODIFIED: Button now says "Request This Book" -->
     <div class="modal-overlay hidden" id="bookDetailModal">
         <div class="modal-box">
             <button class="modal-close" id="modalCloseBtn">✕</button>
@@ -159,10 +199,15 @@
                 <span id="modalDept" class="meta-chip">Dept: --</span>
                 <span id="modalSem" class="meta-chip">Sem: --</span>
             </div>
+            <div class="modal-description-section">
+                <h4 class="modal-desc-label">📝 Content Preview</h4>
+                <p class="modal-desc-text" id="modalDescription">No description available.</p>
+            </div>
             <div class="modal-availability" id="modalAvail">
                 <span class="avail-badge">Checking...</span>
             </div>
-            <button class="btn-primary btn-full" id="requestBookBtn">Request This Book</button>
+            <!-- MODIFIED: Button text dynamically set by JS based on request status -->
+            <button class="btn-primary btn-full" id="requestBookBtn">📋 Request This Book</button>
         </div>
     </div>
 

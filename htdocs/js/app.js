@@ -9,16 +9,26 @@ const API = 'http://localhost:3000/cgi-bin';
 
 /* ─── Seed Data ─── */
 const SEED_BOOKS = [
-    { id:1,  title:"Database System Concepts",       author:"Silberschatz & Korth", category:"DBMS",        dept:"CS",  sem:4, qty:5, issued:2 },
-    { id:2,  title:"Operating System Concepts",      author:"Abraham Silberschatz", category:"OS",          dept:"CS",  sem:5, qty:4, issued:4 },
-    { id:3,  title:"Data Structures using C",        author:"Reema Thareja",        category:"DS",          dept:"CS",  sem:3, qty:6, issued:1 },
-    { id:4,  title:"Higher Engineering Mathematics", author:"B.S. Grewal",          category:"Maths",       dept:"All", sem:2, qty:8, issued:3 },
-    { id:5,  title:"Computer Networks",              author:"Andrew Tanenbaum",     category:"Networks",    dept:"CS",  sem:6, qty:3, issued:1 },
-    { id:6,  title:"Introduction to Algorithms",     author:"Cormen et al.",        category:"DS",          dept:"CS",  sem:4, qty:4, issued:2 },
-    { id:7,  title:"Let Us C",                       author:"Yashavant Kanetkar",   category:"Programming", dept:"CS",  sem:1, qty:10,issued:4 },
-    { id:8,  title:"Discrete Mathematics",           author:"Kenneth H. Rosen",     category:"Maths",       dept:"All", sem:3, qty:5, issued:0 },
-    { id:9,  title:"The Linux Command Line",         author:"William Shotts",       category:"OS",          dept:"CS",  sem:5, qty:2, issued:1 },
-    { id:10, title:"DBMS by Navathe",                author:"Elmasri & Navathe",    category:"DBMS",        dept:"CS",  sem:4, qty:3, issued:3 },
+    { id:1,  title:"Database System Concepts",       author:"Silberschatz & Korth", category:"DBMS",        dept:"CS",  sem:4, qty:5, issued:2,
+      description:"Comprehensive guide covering relational model, SQL, database design, indexing, query processing, transaction management, and concurrency control. Ideal for students learning the fundamentals of database systems." },
+    { id:2,  title:"Operating System Concepts",      author:"Abraham Silberschatz", category:"OS",          dept:"CS",  sem:5, qty:4, issued:4,
+      description:"Covers process management, memory management, storage management, protection & security. Includes case studies on Linux and Windows. A must-read for understanding how modern operating systems work." },
+    { id:3,  title:"Data Structures using C",        author:"Reema Thareja",        category:"DS",          dept:"CS",  sem:3, qty:6, issued:1,
+      description:"Detailed coverage of arrays, linked lists, stacks, queues, trees, graphs, sorting and searching algorithms. Includes C implementations and practice problems for each data structure." },
+    { id:4,  title:"Higher Engineering Mathematics", author:"B.S. Grewal",          category:"Maths",       dept:"All", sem:2, qty:8, issued:3,
+      description:"Covers differential calculus, integral calculus, linear algebra, differential equations, complex analysis, probability, and statistics. One of the most recommended books for engineering mathematics." },
+    { id:5,  title:"Computer Networks",              author:"Andrew Tanenbaum",     category:"Networks",    dept:"CS",  sem:6, qty:3, issued:1,
+      description:"Covers network architecture, TCP/IP, wireless networks, network security, and application layer protocols. Provides both theoretical concepts and practical insights into internet technologies." },
+    { id:6,  title:"Introduction to Algorithms",     author:"Cormen et al.",        category:"DS",          dept:"CS",  sem:4, qty:4, issued:2,
+      description:"Known as CLRS, this book covers algorithm design, analysis, sorting, graph algorithms, dynamic programming, greedy algorithms, and NP-completeness. The gold standard for algorithm study." },
+    { id:7,  title:"Let Us C",                       author:"Yashavant Kanetkar",   category:"Programming", dept:"CS",  sem:1, qty:10,issued:4,
+      description:"A beginner-friendly introduction to C programming. Covers data types, control structures, functions, pointers, file handling, and dynamic memory allocation with hands-on exercises." },
+    { id:8,  title:"Discrete Mathematics",           author:"Kenneth H. Rosen",     category:"Maths",       dept:"All", sem:3, qty:5, issued:0,
+      description:"Covers logic, set theory, combinatorics, graph theory, number theory, and algebraic structures. Essential for computer science students to build a strong mathematical foundation." },
+    { id:9,  title:"The Linux Command Line",         author:"William Shotts",       category:"OS",          dept:"CS",  sem:5, qty:2, issued:1,
+      description:"Practical guide to mastering the Linux shell. Covers navigation, file management, text processing, scripting, permissions, and package management with real-world examples." },
+    { id:10, title:"DBMS by Navathe",                author:"Elmasri & Navathe",    category:"DBMS",        dept:"CS",  sem:4, qty:3, issued:3,
+      description:"Comprehensive coverage of database modeling, relational algebra, SQL, normalization, transaction processing, and distributed databases. An excellent companion to any DBMS course." },
 ];
 
 const SEED_USERS = [
@@ -34,6 +44,11 @@ const SEED_ISSUED = [
     { id:"ISS004", studentId:"STU003", bookId:4, issueDate:"2024-03-10", dueDate:"2024-03-24", returned:true  },
 ];
 
+const SEED_RETURN_REQUESTS = [];
+
+/* ─── NEW: Seed Issue Requests ─── */
+const SEED_ISSUE_REQUESTS = [];
+
 const ADMINS = [
     { id:"ADM001", password:"admin123" }
 ];
@@ -48,13 +63,17 @@ const SUGGESTIONS = [
 ];
 
 /* ─── Storage Helpers ─── */
-function getBooks()   { return JSON.parse(localStorage.getItem('ll_books')   || 'null') || SEED_BOOKS.map(b => ({...b})); }
-function getUsers()   { return JSON.parse(localStorage.getItem('ll_users')   || 'null') || SEED_USERS.map(u => ({...u})); }
-function getIssued()  { return JSON.parse(localStorage.getItem('ll_issued')  || 'null') || SEED_ISSUED.map(i => ({...i})); }
+function getBooks()          { return JSON.parse(localStorage.getItem('ll_books')           || 'null') || SEED_BOOKS.map(b => ({...b})); }
+function getUsers()          { return JSON.parse(localStorage.getItem('ll_users')           || 'null') || SEED_USERS.map(u => ({...u})); }
+function getIssued()         { return JSON.parse(localStorage.getItem('ll_issued')          || 'null') || SEED_ISSUED.map(i => ({...i})); }
+function getReturnRequests() { return JSON.parse(localStorage.getItem('ll_return_requests') || 'null') || SEED_RETURN_REQUESTS.map(r => ({...r})); }
+function getIssueRequests()  { return JSON.parse(localStorage.getItem('ll_issue_requests')  || 'null') || SEED_ISSUE_REQUESTS.map(r => ({...r})); }
 
-function saveBooks(d)  { localStorage.setItem('ll_books',  JSON.stringify(d)); }
-function saveUsers(d)  { localStorage.setItem('ll_users',  JSON.stringify(d)); }
-function saveIssued(d) { localStorage.setItem('ll_issued', JSON.stringify(d)); }
+function saveBooks(d)          { localStorage.setItem('ll_books',           JSON.stringify(d)); }
+function saveUsers(d)          { localStorage.setItem('ll_users',           JSON.stringify(d)); }
+function saveIssued(d)         { localStorage.setItem('ll_issued',          JSON.stringify(d)); }
+function saveReturnRequests(d) { localStorage.setItem('ll_return_requests', JSON.stringify(d)); }
+function saveIssueRequests(d)  { localStorage.setItem('ll_issue_requests',  JSON.stringify(d)); }
 
 /* ─── Fine Calculation ─── */
 function calcFine(dueDateStr) {
@@ -182,6 +201,8 @@ function initAdminDashboard(session) {
     setupAddBookForm();
     setupIssueBookForm(session);
     renderPendingTable();
+    renderReturnRequestsTable();
+    renderIssueRequestsTable();   /* ← NEW */
 
     // Set default due-date (14 days from today)
     const dd = document.getElementById('issueDueDate');
@@ -199,23 +220,31 @@ function initAdminDashboard(session) {
 }
 
 function onAdminNav(viewId, session) {
-    if (viewId === 'dash-view')     { renderAdminStats(); renderRecentTransactions(); renderOverdueAlerts(); }
-    if (viewId === 'books-view')    renderAdminBooksTable();
-    if (viewId === 'pending-view')  renderPendingTable();
-    if (viewId === 'suggest-view')  renderSuggestions('suggestGrid');
+    if (viewId === 'dash-view')             { renderAdminStats(); renderRecentTransactions(); renderOverdueAlerts(); }
+    if (viewId === 'books-view')            renderAdminBooksTable();
+    if (viewId === 'pending-view')          renderPendingTable();
+    if (viewId === 'return-requests-view')  renderReturnRequestsTable();
+    if (viewId === 'issue-requests-view')   renderIssueRequestsTable();   /* ← NEW */
+    if (viewId === 'suggest-view')          renderSuggestions('suggestGrid');
 }
 
 function renderAdminStats() {
-    const users  = getUsers();
-    const issued = getIssued();
-    const total  = issued.length;
-    const ret    = issued.filter(i => i.returned).length;
-    const pend   = issued.filter(i => !i.returned).length;
+    const users    = getUsers();
+    const issued   = getIssued();
+    const retReqs  = getReturnRequests();
+    const issReqs  = getIssueRequests();
+    const total    = issued.length;
+    const ret      = issued.filter(i => i.returned).length;
+    const pend     = issued.filter(i => !i.returned).length;
+    const pendRetReqs = retReqs.filter(r => r.status === 'Pending').length;
+    const pendIssReqs = issReqs.filter(r => r.status === 'Pending').length;
 
-    setText('stat-students', users.length);
-    setText('stat-issued',   total);
-    setText('stat-returned', ret);
-    setText('stat-pending',  pend);
+    setText('stat-students',    users.length);
+    setText('stat-issued',      total);
+    setText('stat-returned',    ret);
+    setText('stat-pending',     pend);
+    setText('stat-return-reqs', pendRetReqs);
+    setText('stat-issue-reqs',  pendIssReqs);   /* ← NEW */
 }
 
 function renderRecentTransactions() {
@@ -266,6 +295,7 @@ function renderOverdueAlerts() {
     }).join('');
 }
 
+/* ─── Admin Books Table (with description) ─── */
 function renderAdminBooksTable() {
     let books = getBooks();
     const searchVal = (document.getElementById('bookSearchInput')?.value || '').toLowerCase();
@@ -282,7 +312,7 @@ function renderAdminBooksTable() {
     if (!tbody) return;
 
     if (!books.length) {
-        tbody.innerHTML = '<tr><td colspan="8" class="empty-state">No books found.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="9" class="empty-state">No books found.</td></tr>';
         return;
     }
     tbody.innerHTML = books.map(b => {
@@ -290,6 +320,9 @@ function renderAdminBooksTable() {
         const badge = avail > 0
             ? `<span class="badge badge-green">${avail} Available</span>`
             : `<span class="badge badge-red">Out of Stock</span>`;
+        const desc = b.description
+            ? `<div class="desc-preview-cell" title="${escapeHtml(b.description)}">${truncate(b.description, 60)}</div>`
+            : `<span class="text-muted">—</span>`;
         return `<tr>
             <td>#${b.id}</td>
             <td><strong>${b.title}</strong></td>
@@ -299,10 +332,12 @@ function renderAdminBooksTable() {
             <td>${b.qty}</td>
             <td>${b.issued}</td>
             <td>${badge}</td>
+            <td>${desc}</td>
         </tr>`;
     }).join('');
 }
 
+/* ─── Add Book Form (with description) ─── */
 function setupAddBookForm() {
     const form = document.getElementById('addBookForm');
     if (!form) return;
@@ -314,13 +349,14 @@ function setupAddBookForm() {
 
         books.push({
             id,
-            title:    document.getElementById('bookName').value.trim(),
-            author:   document.getElementById('bookAuthor').value.trim(),
-            category: document.getElementById('bookCategory').value,
-            dept:     document.getElementById('bookDept').value.trim() || 'All',
-            sem:      parseInt(document.getElementById('bookSemester').value) || 1,
-            qty:      parseInt(document.getElementById('bookQty').value),
-            issued:   0
+            title:       document.getElementById('bookName').value.trim(),
+            author:      document.getElementById('bookAuthor').value.trim(),
+            category:    document.getElementById('bookCategory').value,
+            dept:        document.getElementById('bookDept').value.trim() || 'All',
+            sem:         parseInt(document.getElementById('bookSemester').value) || 1,
+            qty:         parseInt(document.getElementById('bookQty').value),
+            issued:      0,
+            description: document.getElementById('bookDescription').value.trim() || ''
         });
         saveBooks(books);
         form.reset();
@@ -330,6 +366,7 @@ function setupAddBookForm() {
     });
 }
 
+/* ─── Admin Direct Issue Book Form (kept for admin convenience) ─── */
 function setupIssueBookForm(session) {
     const form = document.getElementById('issueBookForm');
     if (!form) return;
@@ -427,6 +464,213 @@ function adminReturnBook(issId) {
 }
 
 /* ═══════════════════════════════════════════════
+   RETURN REQUESTS TABLE (Admin Side)
+   ═══════════════════════════════════════════════ */
+function renderReturnRequestsTable() {
+    const retReqs = getReturnRequests();
+    const books   = getBooks();
+    const users   = getUsers();
+    const tbody   = document.getElementById('returnReqTableBody');
+    const count   = document.getElementById('return-req-count');
+    if (!tbody) return;
+
+    const pending  = retReqs.filter(r => r.status === 'Pending');
+    const resolved = retReqs.filter(r => r.status !== 'Pending');
+    const all      = [...pending, ...resolved];
+
+    if (count) count.textContent = `${pending.length} pending`;
+
+    if (!all.length) {
+        tbody.innerHTML = '<tr><td colspan="7" class="empty-state">No return requests yet 📭</td></tr>';
+        return;
+    }
+    tbody.innerHTML = all.map(r => {
+        const book = books.find(b => b.id === r.bookId) || {};
+        const user = users.find(u => u.id === r.studentId) || {};
+        let statusBadge = '';
+        let actions = '';
+        if (r.status === 'Pending') {
+            statusBadge = '<span class="badge badge-amber">⏳ Pending</span>';
+            actions = `
+                <button class="btn-approve" onclick="approveReturnReq('${r.id}')">✅ Approve</button>
+                <button class="btn-reject" onclick="rejectReturnReq('${r.id}')">❌ Reject</button>`;
+        } else if (r.status === 'Approved') {
+            statusBadge = '<span class="badge badge-green">✅ Approved</span>';
+            actions = '<span class="text-muted">—</span>';
+        } else {
+            statusBadge = '<span class="badge badge-red">❌ Rejected</span>';
+            actions = '<span class="text-muted">—</span>';
+        }
+        return `<tr>
+            <td><strong>${user.name || r.studentName || '—'}</strong></td>
+            <td>${r.studentId}</td>
+            <td>${book.title || '—'}</td>
+            <td>#${r.bookId}</td>
+            <td>${statusBadge}</td>
+            <td>${r.requestDate || '—'}</td>
+            <td class="action-btns">${actions}</td>
+        </tr>`;
+    }).join('');
+}
+
+function approveReturnReq(reqId) {
+    const retReqs = getReturnRequests();
+    const req = retReqs.find(r => r.id === reqId);
+    if (!req || req.status !== 'Pending') return;
+
+    req.status = 'Approved';
+    saveReturnRequests(retReqs);
+
+    const issued = getIssued();
+    const books  = getBooks();
+    const rec    = issued.find(i => i.id === req.issueId);
+    if (rec && !rec.returned) {
+        rec.returned = true;
+        const book = books.find(b => b.id === rec.bookId);
+        if (book && book.issued > 0) book.issued--;
+        saveIssued(issued);
+        saveBooks(books);
+    }
+
+    notify('Return request approved! Book marked as returned.');
+    renderReturnRequestsTable();
+    renderPendingTable();
+    renderAdminStats();
+    renderOverdueAlerts();
+}
+
+function rejectReturnReq(reqId) {
+    const retReqs = getReturnRequests();
+    const req = retReqs.find(r => r.id === reqId);
+    if (!req || req.status !== 'Pending') return;
+
+    req.status = 'Rejected';
+    saveReturnRequests(retReqs);
+
+    notify('Return request rejected. No changes made to book status.', 'error');
+    renderReturnRequestsTable();
+    renderAdminStats();
+}
+
+/* ═══════════════════════════════════════════════
+   NEW: ISSUE REQUESTS TABLE (Admin Side)
+   ═══════════════════════════════════════════════ */
+function renderIssueRequestsTable() {
+    const issReqs = getIssueRequests();
+    const books   = getBooks();
+    const users   = getUsers();
+    const tbody   = document.getElementById('issueReqTableBody');
+    const count   = document.getElementById('issue-req-count');
+    if (!tbody) return;
+
+    const pending  = issReqs.filter(r => r.status === 'Pending');
+    const resolved = issReqs.filter(r => r.status !== 'Pending');
+    const all      = [...pending, ...resolved];
+
+    if (count) count.textContent = `${pending.length} pending`;
+
+    if (!all.length) {
+        tbody.innerHTML = '<tr><td colspan="7" class="empty-state">No issue requests yet 📭</td></tr>';
+        return;
+    }
+    tbody.innerHTML = all.map(r => {
+        const book  = books.find(b => b.id === r.bookId) || {};
+        const user  = users.find(u => u.id === r.studentId) || {};
+        const avail = book.qty ? (book.qty - (book.issued || 0)) : 0;
+        let statusBadge = '';
+        let actions = '';
+        if (r.status === 'Pending') {
+            statusBadge = '<span class="badge badge-amber">⏳ Pending</span>';
+            if (avail > 0) {
+                actions = `
+                    <button class="btn-approve" onclick="approveIssueReq('${r.id}')">✅ Approve</button>
+                    <button class="btn-reject" onclick="rejectIssueReq('${r.id}')">❌ Reject</button>`;
+            } else {
+                actions = `
+                    <span class="badge badge-red" style="margin-right:6px">No Stock</span>
+                    <button class="btn-reject" onclick="rejectIssueReq('${r.id}')">❌ Reject</button>`;
+            }
+        } else if (r.status === 'Approved') {
+            statusBadge = '<span class="badge badge-green">✅ Approved</span>';
+            actions = '<span class="text-muted">—</span>';
+        } else {
+            statusBadge = '<span class="badge badge-red">❌ Rejected</span>';
+            actions = '<span class="text-muted">—</span>';
+        }
+        return `<tr>
+            <td><strong>${user.name || r.studentName || '—'}</strong></td>
+            <td>${r.studentId}</td>
+            <td>${book.title || '—'}</td>
+            <td>#${r.bookId}</td>
+            <td>${statusBadge}</td>
+            <td>${r.requestDate || '—'}</td>
+            <td class="action-btns">${actions}</td>
+        </tr>`;
+    }).join('');
+}
+
+/* ─── Approve Issue Request ─── */
+function approveIssueReq(reqId) {
+    const issReqs = getIssueRequests();
+    const req = issReqs.find(r => r.id === reqId);
+    if (!req || req.status !== 'Pending') return;
+
+    const books  = getBooks();
+    const issued = getIssued();
+    const users  = getUsers();
+    const book   = books.find(b => b.id === req.bookId);
+    const user   = users.find(u => u.id === req.studentId);
+
+    if (!book) { notify('Book not found!', 'error'); return; }
+    if (book.qty - book.issued <= 0) { notify('No copies available to approve this request!', 'error'); return; }
+
+    // Check if student already has this book
+    const alreadyHas = issued.find(i => i.studentId === req.studentId && i.bookId === req.bookId && !i.returned);
+    if (alreadyHas) { notify('Student already has this book issued!', 'error'); return; }
+
+    // Create the issued record
+    const due = new Date();
+    due.setDate(due.getDate() + 14);
+    const newIss = {
+        id:        'ISS' + Date.now(),
+        studentId: req.studentId,
+        bookId:    req.bookId,
+        issueDate: new Date().toISOString().split('T')[0],
+        dueDate:   due.toISOString().split('T')[0],
+        returned:  false
+    };
+    issued.push(newIss);
+    book.issued++;
+
+    req.status = 'Approved';
+    req.issueId = newIss.id;
+
+    saveIssueRequests(issReqs);
+    saveIssued(issued);
+    saveBooks(books);
+
+    notify(`Issue request approved! "${book.title}" issued to ${user?.name || req.studentId}.`);
+    renderIssueRequestsTable();
+    renderPendingTable();
+    renderAdminStats();
+    renderAdminBooksTable();
+}
+
+/* ─── Reject Issue Request ─── */
+function rejectIssueReq(reqId) {
+    const issReqs = getIssueRequests();
+    const req = issReqs.find(r => r.id === reqId);
+    if (!req || req.status !== 'Pending') return;
+
+    req.status = 'Rejected';
+    saveIssueRequests(issReqs);
+
+    notify('Issue request rejected. No changes made.', 'error');
+    renderIssueRequestsTable();
+    renderAdminStats();
+}
+
+/* ═══════════════════════════════════════════════
    USER DASHBOARD
    ═══════════════════════════════════════════════ */
 function initUserDashboard(session) {
@@ -441,6 +685,7 @@ function initUserDashboard(session) {
     renderUserProfile(user);
     renderBooksGrid('', user);
     renderMyBooks(session);
+    renderMyIssueRequests(session);   /* ← NEW */
     renderSuggestions('suggestGrid');
 
     // Category chips
@@ -465,26 +710,29 @@ function initUserDashboard(session) {
         if (e.target === e.currentTarget) closeModal();
     });
 
-    // Request book
+    // MODIFIED: Request book now submits an issue request
     document.getElementById('requestBookBtn')?.addEventListener('click', () => {
         const bookId = parseInt(window._modalBookId);
-        requestBook(bookId, session);
+        submitIssueRequest(bookId, session);   /* ← CHANGED from requestBook */
     });
 }
 
 function onUserNav(viewId, session) {
-    if (viewId === 'browse-view')  renderBooksGrid('', null);
-    if (viewId === 'mybooks-view') renderMyBooks(session);
-    if (viewId === 'suggest-view') renderSuggestions('suggestGrid');
+    if (viewId === 'browse-view')       renderBooksGrid('', null);
+    if (viewId === 'mybooks-view')      renderMyBooks(session);
+    if (viewId === 'my-requests-view')  renderMyIssueRequests(session);   /* ← NEW */
+    if (viewId === 'suggest-view')      renderSuggestions('suggestGrid');
 }
 
 function renderUserProfile(user) {
-    const issued   = getIssued().filter(i => i.studentId === user.id && !i.returned);
+    const issued    = getIssued().filter(i => i.studentId === user.id && !i.returned);
     const fineTotal = issued.reduce((acc, i) => acc + calcFine(i.dueDate), 0);
     const dueSoon   = issued.filter(i => {
         const diff = Math.floor((new Date(i.dueDate) - new Date()) / 86400000);
         return diff >= 0 && diff <= 3;
     }).length;
+    const retReqs     = getReturnRequests().filter(r => r.studentId === user.id && r.status === 'Pending').length;
+    const issReqs     = getIssueRequests().filter(r => r.studentId === user.id && r.status === 'Pending').length;
 
     setText('profileName', user.name);
     setText('profileId',   'ID: ' + user.id);
@@ -493,10 +741,13 @@ function renderUserProfile(user) {
     setText('pBooksIssued', issued.length);
     setText('pBooksDue',    dueSoon);
     setText('pFineTotal',   '₹' + fineTotal);
+    setText('pReturnReqs',  retReqs);
+    setText('pIssueReqs',   issReqs);   /* ← NEW */
     const photo = document.getElementById('profilePhoto');
     if (photo) photo.textContent = user.photo || '🎓';
 }
 
+/* ─── Books Grid (with description preview) ─── */
 function renderBooksGrid(cat, user) {
     let books = getBooks();
     const searchVal = (document.getElementById('bookSearchInput')?.value || '').toLowerCase();
@@ -514,12 +765,16 @@ function renderBooksGrid(cat, user) {
         const avail = b.qty - b.issued;
         const availHtml = avail > 0
             ? `<span class="avail-yes">✅ ${avail} Available</span>`
-            : `<span class="avail-no">❌ Out of Stock</span>`;
+            : `<span class="avail-no">❌ Not Available</span>`;
+        const descHtml = b.description
+            ? `<div class="book-desc-preview">${truncate(b.description, 80)}</div>`
+            : '';
         return `
         <div class="book-card" onclick="openBookModal(${b.id})" title="Click to view details">
             <span class="book-emoji">${bookEmoji(b.category)}</span>
             <div class="book-title">${b.title}</div>
             <div class="book-author">by ${b.author}</div>
+            ${descHtml}
             <div class="book-meta">
                 <span class="badge badge-blue">${b.category}</span>
                 <span class="badge badge-amber">Sem ${b.sem}</span>
@@ -529,29 +784,64 @@ function renderBooksGrid(cat, user) {
     }).join('');
 }
 
+/* ─── MODIFIED: Book Modal – button now says "Request Issue" and checks existing requests ─── */
 function openBookModal(bookId) {
     const books = getBooks();
     const book  = books.find(b => b.id === bookId);
     if (!book) return;
     window._modalBookId = bookId;
 
-    const avail   = book.qty - book.issued;
+    const session  = JSON.parse(sessionStorage.getItem('ll_session') || '{}');
+    const avail    = book.qty - book.issued;
+    const issued   = getIssued();
+    const issReqs  = getIssueRequests();
+
     const availHtml = avail > 0
         ? `<span class="avail-badge badge-green">✅ ${avail} cop${avail===1?'y':'ies'} available</span>`
-        : `<span class="avail-badge badge-red">❌ Out of Stock</span>`;
+        : `<span class="avail-badge badge-red">❌ Not Available</span>`;
 
     setText('modalTitle',  book.title);
     setText('modalAuthor', 'Author: ' + book.author);
     setText('modalCat',    'Category: ' + book.category);
     setText('modalDept',   'Dept: ' + book.dept);
     setText('modalSem',    'Sem: ' + book.sem);
+
+    const descEl = document.getElementById('modalDescription');
+    if (descEl) {
+        descEl.textContent = book.description || 'No description available for this book.';
+    }
+
     const icon = document.getElementById('modalIcon');
     if (icon) icon.textContent = bookEmoji(book.category);
     const avEl = document.getElementById('modalAvail');
     if (avEl) avEl.innerHTML = availHtml;
 
+    /* ─── MODIFIED: Determine button state ─── */
     const reqBtn = document.getElementById('requestBookBtn');
-    if (reqBtn) reqBtn.disabled = avail <= 0;
+    if (reqBtn) {
+        // Check if student already has this book issued
+        const alreadyHas = issued.find(i => i.studentId === session.id && i.bookId === bookId && !i.returned);
+        // Check if there's already a pending issue request
+        const pendingReq = issReqs.find(r => r.studentId === session.id && r.bookId === bookId && r.status === 'Pending');
+
+        if (alreadyHas) {
+            reqBtn.disabled = true;
+            reqBtn.textContent = '📚 Already Issued to You';
+            reqBtn.className = 'btn-primary btn-full btn-disabled-state';
+        } else if (pendingReq) {
+            reqBtn.disabled = true;
+            reqBtn.textContent = '⏳ Request Pending Approval';
+            reqBtn.className = 'btn-primary btn-full btn-pending-state';
+        } else if (avail <= 0) {
+            reqBtn.disabled = true;
+            reqBtn.textContent = '❌ Not Available';
+            reqBtn.className = 'btn-primary btn-full btn-disabled-state';
+        } else {
+            reqBtn.disabled = false;
+            reqBtn.textContent = '📋 Request This Book';
+            reqBtn.className = 'btn-primary btn-full';
+        }
+    }
 
     const modal = document.getElementById('bookDetailModal');
     if (modal) modal.classList.remove('hidden');
@@ -562,44 +852,58 @@ function closeModal() {
     if (modal) modal.classList.add('hidden');
 }
 
-function requestBook(bookId, session) {
-    const books  = getBooks();
-    const issued = getIssued();
-    const book   = books.find(b => b.id === bookId);
+/* ═══════════════════════════════════════════════
+   NEW: Submit Issue Request (Student Side)
+   Replaces direct requestBook()
+   ═══════════════════════════════════════════════ */
+function submitIssueRequest(bookId, session) {
+    const books   = getBooks();
+    const issued  = getIssued();
+    const issReqs = getIssueRequests();
+    const users   = getUsers();
+    const book    = books.find(b => b.id === bookId);
+    const user    = users.find(u => u.id === session.id);
     if (!book) return;
 
     const avail = book.qty - book.issued;
-    if (avail <= 0) { notify('No copies available!', 'error'); return; }
+    if (avail <= 0) { notify('This book is not available!', 'error'); return; }
 
-    const alreadyIssued = issued.find(i => i.studentId === session.id && i.bookId === bookId && !i.returned);
-    if (alreadyIssued) { notify('You already have this book!', 'error'); return; }
+    // Check already issued
+    const alreadyHas = issued.find(i => i.studentId === session.id && i.bookId === bookId && !i.returned);
+    if (alreadyHas) { notify('You already have this book!', 'error'); return; }
 
-    const due  = new Date();
-    due.setDate(due.getDate() + 14);
-    issued.push({
-        id:        'ISS' + Date.now(),
-        studentId: session.id,
-        bookId,
-        issueDate: new Date().toISOString().split('T')[0],
-        dueDate:   due.toISOString().split('T')[0],
-        returned:  false
+    // Check for already pending request
+    const alreadyPending = issReqs.find(r => r.studentId === session.id && r.bookId === bookId && r.status === 'Pending');
+    if (alreadyPending) { notify('You already have a pending request for this book!', 'error'); return; }
+
+    // Remove any old rejected request for this book from this student
+    const oldRejectedIdx = issReqs.findIndex(r => r.studentId === session.id && r.bookId === bookId && r.status === 'Rejected');
+    if (oldRejectedIdx !== -1) issReqs.splice(oldRejectedIdx, 1);
+
+    issReqs.push({
+        id:          'IREQ' + Date.now(),
+        bookId:      bookId,
+        studentId:   session.id,
+        studentName: user?.name || session.id,
+        status:      'Pending',
+        requestDate: new Date().toISOString().split('T')[0]
     });
-    book.issued++;
-    saveIssued(issued);
-    saveBooks(books);
+    saveIssueRequests(issReqs);
+
     closeModal();
-    notify(`"${book.title}" has been issued to you! Due: ${due.toDateString()}`);
-    renderBooksGrid('', null);
-    const users = getUsers();
-    const user  = users.find(u => u.id === session.id);
+    notify(`Issue request submitted for "${book.title}". Awaiting admin approval.`);
+    renderBooksGrid('', user);
+    renderMyIssueRequests(session);
     if (user) renderUserProfile(user);
 }
 
+/* ─── My Books – Return button submits Return Request ─── */
 function renderMyBooks(session) {
-    const issued = getIssued().filter(i => i.studentId === session.id);
-    const books  = getBooks();
-    const tbody  = document.getElementById('myBooksTableBody');
-    const count  = document.getElementById('mybooks-count');
+    const issued  = getIssued().filter(i => i.studentId === session.id);
+    const books   = getBooks();
+    const retReqs = getReturnRequests();
+    const tbody   = document.getElementById('myBooksTableBody');
+    const count   = document.getElementById('mybooks-count');
     if (!tbody) return;
 
     const active = issued.filter(i => !i.returned);
@@ -615,12 +919,29 @@ function renderMyBooks(session) {
         const fineBadge = fine > 0
             ? `<span class="badge badge-red">₹${fine}</span>`
             : `<span class="badge badge-green">₹0</span>`;
-        const statusBadge = i.returned
-            ? `<span class="badge badge-green">Returned</span>`
-            : (fine > 0 ? `<span class="badge badge-red">Overdue</span>` : `<span class="badge badge-amber">Active</span>`);
-        const action = i.returned
-            ? '—'
-            : `<button class="btn-outline" onclick="returnBook('${i.id}','${session.id}')">Return</button>`;
+
+        const existingReq = retReqs.find(r => r.issueId === i.id);
+        let statusBadge = '';
+        let action = '';
+
+        if (i.returned) {
+            statusBadge = `<span class="badge badge-green">Returned</span>`;
+            action = '—';
+        } else if (existingReq && existingReq.status === 'Pending') {
+            statusBadge = `<span class="badge badge-amber">🔄 Return Pending</span>`;
+            action = `<span class="badge badge-amber">Awaiting Approval</span>`;
+        } else if (existingReq && existingReq.status === 'Rejected') {
+            statusBadge = fine > 0
+                ? `<span class="badge badge-red">Overdue</span>`
+                : `<span class="badge badge-amber">Active</span>`;
+            action = `<button class="btn-outline" onclick="submitReturnRequest('${i.id}','${session.id}')">Request Return Again</button>`;
+        } else {
+            statusBadge = fine > 0
+                ? `<span class="badge badge-red">Overdue</span>`
+                : `<span class="badge badge-amber">Active</span>`;
+            action = `<button class="btn-outline" onclick="submitReturnRequest('${i.id}','${session.id}')">Request Return</button>`;
+        }
+
         return `<tr>
             <td><strong>${book.title || '—'}</strong></td>
             <td>${book.author || '—'}</td>
@@ -633,27 +954,88 @@ function renderMyBooks(session) {
     }).join('');
 }
 
-function returnBook(issId, studentId) {
-    const issued = getIssued();
-    const books  = getBooks();
-    const rec    = issued.find(i => i.id === issId);
+/* ═══════════════════════════════════════════════
+   NEW: My Issue Requests (Student Side)
+   Shows all issue requests and their statuses
+   ═══════════════════════════════════════════════ */
+function renderMyIssueRequests(session) {
+    const issReqs = getIssueRequests().filter(r => r.studentId === session.id);
+    const books   = getBooks();
+    const tbody   = document.getElementById('myIssueReqTableBody');
+    const count   = document.getElementById('my-issue-req-count');
+    if (!tbody) return;
+
+    const pending = issReqs.filter(r => r.status === 'Pending');
+    if (count) count.textContent = `${pending.length} pending`;
+
+    if (!issReqs.length) {
+        tbody.innerHTML = '<tr><td colspan="5" class="empty-state">You have no issue requests.</td></tr>';
+        return;
+    }
+
+    // Sort: pending first, then resolved
+    const sorted = [...issReqs.filter(r => r.status === 'Pending'), ...issReqs.filter(r => r.status !== 'Pending')];
+
+    tbody.innerHTML = sorted.map(r => {
+        const book = books.find(b => b.id === r.bookId) || {};
+        let statusBadge = '';
+        if (r.status === 'Pending') {
+            statusBadge = '<span class="badge badge-amber">⏳ Pending</span>';
+        } else if (r.status === 'Approved') {
+            statusBadge = '<span class="badge badge-green">✅ Approved</span>';
+        } else {
+            statusBadge = '<span class="badge badge-red">❌ Rejected</span>';
+        }
+        return `<tr>
+            <td><strong>${book.title || '—'}</strong></td>
+            <td>${book.author || '—'}</td>
+            <td>#${r.bookId}</td>
+            <td>${r.requestDate || '—'}</td>
+            <td>${statusBadge}</td>
+        </tr>`;
+    }).join('');
+}
+
+/* ─── Submit Return Request (Student Side) ─── */
+function submitReturnRequest(issueId, studentId) {
+    const issued  = getIssued();
+    const books   = getBooks();
+    const users   = getUsers();
+    const retReqs = getReturnRequests();
+
+    const rec  = issued.find(i => i.id === issueId);
     if (!rec || rec.returned) return;
 
-    const fine = calcFine(rec.dueDate);
-    if (fine > 0 && !confirm(`You have a fine of ₹${fine}. Proceed to return?`)) return;
+    const book = books.find(b => b.id === rec.bookId) || {};
+    const user = users.find(u => u.id === studentId) || {};
 
-    rec.returned = true;
-    const book = books.find(b => b.id === rec.bookId);
-    if (book && book.issued > 0) book.issued--;
-    saveIssued(issued);
-    saveBooks(books);
+    const existingIdx = retReqs.findIndex(r => r.issueId === issueId && r.status === 'Rejected');
+    if (existingIdx !== -1) retReqs.splice(existingIdx, 1);
+
+    const alreadyPending = retReqs.find(r => r.issueId === issueId && r.status === 'Pending');
+    if (alreadyPending) {
+        notify('You already have a pending return request for this book!', 'error');
+        return;
+    }
+
+    const fine = calcFine(rec.dueDate);
+
+    retReqs.push({
+        id:          'RET' + Date.now(),
+        issueId:     issueId,
+        bookId:      rec.bookId,
+        studentId:   studentId,
+        studentName: user.name || studentId,
+        status:      'Pending',
+        requestDate: new Date().toISOString().split('T')[0],
+        fine:        fine
+    });
+    saveReturnRequests(retReqs);
 
     const session = JSON.parse(sessionStorage.getItem('ll_session') || '{}');
     renderMyBooks(session);
-    const users = getUsers();
-    const user  = users.find(u => u.id === studentId);
     if (user) renderUserProfile(user);
-    notify('Book returned successfully!' + (fine > 0 ? ` Fine paid: ₹${fine}` : ''));
+    notify(`Return request submitted for "${book.title}". Awaiting admin approval.`);
 }
 
 /* ═══════════════════════════════════════════════
@@ -676,10 +1058,21 @@ function renderSuggestions(gridId) {
     `).join('');
 }
 
-/* ─── Utility ─── */
+/* ─── Utilities ─── */
 function setText(id, val) {
     const el = document.getElementById(id);
     if (el) el.textContent = val;
+}
+
+function truncate(str, maxLen) {
+    if (!str) return '';
+    return str.length > maxLen ? str.substring(0, maxLen) + '…' : str;
+}
+
+function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
 }
 
 /* ═══════════════════════════════════════════════
